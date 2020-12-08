@@ -39,7 +39,7 @@ composer require wgx954418992/rapid-framework
 
 ## 版权信息
 
-rapidPHP遵循Apache2开源协议发布，并提供免费使用。
+rapidPHP遵循MIT开源协议发布，并提供免费使用。
 
 本项目包含的第三方源码和二进制文件之版权信息另行标注。
 
