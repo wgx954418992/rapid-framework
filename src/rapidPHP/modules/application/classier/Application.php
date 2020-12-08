@@ -38,16 +38,16 @@ abstract class Application
     private $init;
 
     /**
-     * @var Application[]
+     * @var Application
      */
-    private static $instances;
+    private static $instance;
 
     /**
      * @return static|null
      */
     public static function getInstance()
     {
-        return isset(self::$instances[static::class]) ? self::$instances[static::class] : null;
+        return self::$instance;
     }
 
     /**
@@ -56,7 +56,7 @@ abstract class Application
      */
     public function __construct(Init $init)
     {
-        self::$instances[static::class] = $this;
+        self::$instance = $this;
 
         $this->init = $init;
     }
