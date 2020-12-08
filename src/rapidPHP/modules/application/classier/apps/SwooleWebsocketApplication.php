@@ -4,7 +4,6 @@ namespace rapidPHP\modules\application\classier\apps;
 
 
 use Exception;
-use rapidPHP\modules\application\classier\Application;
 use rapidPHP\modules\router\classier\router\WebRouter;
 use rapidPHP\modules\server\classier\websocket\swoole\Request;
 use rapidPHP\modules\server\classier\websocket\swoole\Response;
@@ -34,8 +33,6 @@ class SwooleWebsocketApplication extends WebApplication
      */
     public function run()
     {
-        parent::run();
-
         $this->server = new Server($this->getConfig()->getServer()->getSwoole()->getWebsocket());
 
         $this->server->on('message', [$this, 'onMessage']);
@@ -46,6 +43,7 @@ class SwooleWebsocketApplication extends WebApplication
     /**
      * @param SwooleWebSocketServer $server
      * @param Frame $frame
+     * @throws Exception
      */
     public function onMessage(SwooleWebSocketServer $server, Frame $frame)
     {
@@ -72,10 +70,10 @@ class SwooleWebsocketApplication extends WebApplication
 
             $requestTime = $endTime - $startTime;
 
-            $this->logger(Application::LOGGER_ACCESS)
+            $this->logger(self::LOGGER_ACCESS)
                 ->info("-{$request->getIp()} -{$request->getMethod()} -{$request->getUrl(true)} -{$requestTime}");
         } catch (Exception $e) {
-            $this->logger(Application::LOGGER_ACCESS)->error(formatException($e));
+            $this->logger(self::LOGGER_ACCESS)->error(formatException($e));
         }
     }
 }

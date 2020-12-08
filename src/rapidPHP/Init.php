@@ -3,7 +3,10 @@
 
 namespace rapidPHP;
 
+use Spyc;
 use Exception;
+use rapidPHP\modules\application\config\ApplicationConfig;
+use rapidPHP\modules\application\wrapper\ConfigWrapper;
 use rapidPHP\modules\common\classier\AB;
 use rapidPHP\modules\common\classier\AR;
 use rapidPHP\modules\common\classier\Build;
@@ -14,8 +17,11 @@ use rapidPHP\modules\common\classier\Register;
 use rapidPHP\modules\common\classier\StrCharacter;
 use rapidPHP\modules\common\classier\Verify;
 use rapidPHP\modules\common\classier\Xml;
+use rapidPHP\modules\common\config\VarConfig;
 use rapidPHP\modules\core\classier\web\ViewTemplate;
+use rapidPHP\modules\exception\classier\RuntimeException;
 use rapidPHP\modules\reflection\classier\Classify;
+use rapidPHP\modules\reflection\classier\Utils;
 
 // 检测PHP环境
 if (version_compare(PHP_VERSION, '7.1.0', '<')) die('require PHP > 7.1.0 !');
@@ -197,10 +203,74 @@ function formatException(Exception $e, $format = "{msg} {code}\n{trace}\n thrown
 
 class Init
 {
+
     /**
-     * 用于composer 依赖加载
+     * 基本配置
+     * @var ConfigWrapper
      */
-    public static function load()
+    private $config;
+
+    /**
+     * 基本配置 (原始数据)
+     * @var array
+     */
+    private $rawConfig = [];
+
+    /**
+     * Init constructor.
+     * @param string|null $appFile
+     * @throws RuntimeException
+     */
+    public function __construct(?string $appFile = null)
     {
+        try {
+            $this->setConfig(ApplicationConfig::getDefaultConfig());
+
+            if (is_null($appFile)) $appFile = PATH_APP . 'application.yaml';
+
+            if (is_file($appFile)) $this->setConfig(Spyc::YAMLLoad($appFile));
+        } catch (Exception $e) {
+            throw new RuntimeException($e->getMessage(), $e->getCode(), $e);
+        }
+    }
+
+    /**
+     * 设置全局config
+     * 请在run之前调用，否则无法调用
+     * @param array $config
+     */
+    public function setConfig(array $config)
+    {
+        AR::getInstance()->merge($this->rawConfig, $config);
+    }
+
+    /**
+     * @return array|ConfigWrapper
+     */
+    public function getConfig()
+    {
+        return $this->config;
+    }
+
+    /**
+     * @param string|null $key
+     * @return array
+     */
+    public function getRawConfig(?string $key = null): ?array
+    {
+        if ($key) return isset($this->rawConfig[$key]) ? $this->rawConfig[$key] : null;
+
+        return $this->rawConfig;
+    }
+
+    /**
+     * 解析config
+     * @throws Exception
+     */
+    public function parseConfig()
+    {
+        VarConfig::parseVarByArray($this->rawConfig);
+
+        $this->config = Utils::getInstance()->toObject(ConfigWrapper::class, $this->rawConfig);
     }
 }

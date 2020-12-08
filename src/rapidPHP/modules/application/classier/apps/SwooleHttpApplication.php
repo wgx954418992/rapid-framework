@@ -4,8 +4,6 @@ namespace rapidPHP\modules\application\classier\apps;
 
 
 use Exception;
-use rapidPHP\modules\application\classier\Application;
-use rapidPHP\modules\common\classier\Calendar;
 use rapidPHP\modules\router\classier\router\WebRouter;
 use rapidPHP\modules\server\classier\http\swoole\Request;
 use rapidPHP\modules\server\classier\http\swoole\Response;
@@ -35,8 +33,6 @@ class SwooleHttpApplication extends WebApplication
      */
     public function run()
     {
-        parent::run();
-
         $this->server = new Server($this->getConfig()->getServer()->getSwoole()->getHttp());
 
         $this->server->on('request', [$this, 'onRequest']);
@@ -73,10 +69,10 @@ class SwooleHttpApplication extends WebApplication
 
             $requestTime = $endTime - $startTime;
 
-            $this->logger(Application::LOGGER_ACCESS)
+            $this->logger(self::LOGGER_ACCESS)
                 ->info("-{$request->getIp()} -{$request->getMethod()} -{$request->getUrl(true)} -{$requestTime}");
         }catch (Exception $e){
-            $this->logger(Application::LOGGER_ACCESS)->error(formatException($e));
+            $this->logger(self::LOGGER_ACCESS)->error(formatException($e));
         }
     }
 }

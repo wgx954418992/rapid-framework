@@ -82,13 +82,6 @@ class Server extends SwooleServer
         return $data . "\r\nCookie: " . Uri::getInstance()->toQuery($req->cookie, false, true, ';');
     }
 
-    public function getRequestBody($fd)
-    {
-        $body = isset($this->requestBody[$fd]) ? $this->requestBody[$fd] : null;
-
-        return $body;
-    }
-
     /**
      * 解析request原生body
      * @param $fd

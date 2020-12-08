@@ -3,9 +3,7 @@
 namespace rapidPHP\modules\application\classier\apps;
 
 use Exception;
-use rapidPHP\modules\application\classier\Application;
 use rapidPHP\modules\common\classier\Build;
-use rapidPHP\modules\exception\classier\RuntimeException;
 use rapidPHP\modules\router\classier\router\WebRouter;
 use rapidPHP\modules\server\classier\http\cgi\Request;
 use rapidPHP\modules\server\classier\http\cgi\Response;
@@ -18,13 +16,10 @@ class CGIApplication extends WebApplication
 
     /**
      * run
-     * @throws RuntimeException
      * @throws Exception
      */
     public function run()
     {
-        parent::run();
-
         try {
             $startTime = microtime(true);
 
@@ -46,14 +41,13 @@ class CGIApplication extends WebApplication
 
             $requestTime = $endTime - $startTime;
 
-            $this->logger(Application::LOGGER_ACCESS)
+            $this->logger(self::LOGGER_ACCESS)
                 ->info("-{$request->getIp()} -{$request->getMethod()} -{$request->getUrl(true)} -{$requestTime}");
         } catch (Exception $e) {
-            $this->logger(Application::LOGGER_ACCESS)->error(formatException($e));
+            $this->logger(self::LOGGER_ACCESS)->error(formatException($e));
 
             throw $e;
         }
-
     }
 
     /**

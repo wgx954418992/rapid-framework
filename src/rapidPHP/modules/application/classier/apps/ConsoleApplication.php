@@ -8,4 +8,8 @@ use rapidPHP\modules\application\classier\Application;
 class ConsoleApplication extends Application
 {
 
+    public function run()
+    {
+
+    }
 }
