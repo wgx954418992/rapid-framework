@@ -10,7 +10,7 @@ use rapidPHP\modules\core\classier\Model;
 use rapidPHP\modules\database\sql\config\ConnectConfig;
 use rapidPHP\modules\reflection\classier\Classify;
 
-class SqlDB
+class SQLDB
 {
 
     /**
@@ -134,7 +134,7 @@ class SqlDB
     /**
      * 处理异常
      * @param PDOException $e
-     * @return SqlDB
+     * @return SQLDB
      */
     public function handlerException(PDOException $e)
     {
@@ -171,11 +171,9 @@ class SqlDB
      * @param $sql
      * @return Statement
      */
-    public function query($sql, $options)
+    public function query($sql)
     {
-        $statement = $this->connect->prepare($sql);
-
-        return new Statement($statement, $options);
+        return new Statement($this->connect->prepare($sql));
     }
 }
 

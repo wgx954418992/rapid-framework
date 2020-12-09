@@ -6,7 +6,7 @@ use Exception;
 use rapidPHP\modules\common\classier\Build;
 use rapidPHP\modules\common\classier\StrCharacter;
 use rapidPHP\modules\database\sql\classier\Driver;
-use rapidPHP\modules\database\sql\classier\SqlDB;
+use rapidPHP\modules\database\sql\classier\SQLDB;
 use rapidPHP\modules\database\sql\classier\Utils;
 
 class Mysql extends Driver
@@ -19,11 +19,11 @@ class Mysql extends Driver
 
     /**
      * Mysql constructor.
-     * @param SqlDB $db
+     * @param SQLDB $db
      * @param $model
      * @throws Exception
      */
-    public function __construct(SqlDB $db, $model)
+    public function __construct(SQLDB $db, $model)
     {
         parent::__construct($db, $model);
     }

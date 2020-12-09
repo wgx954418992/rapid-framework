@@ -30,23 +30,22 @@ class Utils
      * 格式化字段
      * @param $column
      * @param string $joinString
-     * @param string $columnRight
      * @return mixed
      */
     public function formatColumn($column, $joinString = '`')
     {
-        return @preg_replace('/(\w+)/i', "{$joinString}$1{$joinString}", $column);
+        return preg_replace('/(.*?)(\w+)/i', "$1{$joinString}$2{$joinString}", $column);
     }
 
     /**
      * 获取表name
      * @param $table
+     * @param string $joinString
      * @return mixed
-     * @throws Exception
      */
-    public function getTableName($table)
+    public function getTableName($table, $joinString = '`')
     {
-        if (is_subclass_of($table, Model::class) && $table::TABLE_NAME != null) return $table::TABLE_NAME;
+        if (is_subclass_of($table, Model::class) && $table::NAME != null) return $this->formatColumn($table::NAME, $joinString);
 
         try {
             $classify = Classify::getInstance($table);
@@ -56,18 +55,25 @@ class Utils
 
             $tableAnnotation = $docComment->getTableAnnotation();
 
-            return $tableAnnotation->getValue();
+            if ($tableAnnotation) {
+                $result = $tableAnnotation->getValue();
+
+            } else {
+                $result = is_object($table) ? get_class($table) : (string)$table;
+            }
+
+            return $this->formatColumn($result, $joinString);
         } catch (Exception $e) {
-            return $table;
+            $result = is_object($table) ? get_class($table) : (string)$table;
+
+            return $this->formatColumn($result, $joinString);
         }
     }
-    
+
     /**
      * 获取表字段 通过model
      * @param $model
-     * @param null $column
      * @param string $joinString
-     * @param string $columnRight
      * @return mixed|string
      */
     public function getTableColumnByModel($model, $joinString = '`')
