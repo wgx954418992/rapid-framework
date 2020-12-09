@@ -6,6 +6,7 @@ namespace rapidPHP\modules\database\sql\classier;
 use Exception;
 use PDO;
 use PDOException;
+use rapidPHP\modules\core\classier\Model;
 use rapidPHP\modules\database\sql\config\ConnectConfig;
 use rapidPHP\modules\reflection\classier\Classify;
 
@@ -64,7 +65,7 @@ class SqlDB
 
     /**
      * 选择表
-     * @param null $model
+     * @param Model|string $model
      * @return Driver
      * @throws Exception
      */
@@ -93,7 +94,7 @@ class SqlDB
      * 开启事物
      * @return bool
      */
-    public function startThing()
+    public function beginTransaction()
     {
         if ($this->isInThing()) return true;
 
@@ -168,11 +169,13 @@ class SqlDB
     /**
      * 执行sql语句
      * @param $sql
-     * @return Exec
+     * @return Statement
      */
-    public function query($sql)
+    public function query($sql, $options)
     {
-        return new Exec($this, $sql);
+        $statement = $this->connect->prepare($sql);
+
+        return new Statement($statement, $options);
     }
 }
 

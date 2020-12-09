@@ -12,6 +12,11 @@ class Model
 {
 
     /**
+     * name
+     */
+    const NAME = null;
+
+    /**
      * 获取模式
      */
     const MODEL_GET = 1;

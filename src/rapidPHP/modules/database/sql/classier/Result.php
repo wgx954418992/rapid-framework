@@ -16,7 +16,7 @@ class Result
     /**
      * @var array
      */
-    private $resultArray;
+    private $result;
 
     /**
      * Result constructor.
@@ -25,11 +25,10 @@ class Result
      */
     public function __construct(array $result, $model)
     {
-        $this->resultArray = $result;
+        $this->result = $result;
 
         $this->model = $model;
     }
-
 
     /**
      * 获取结果集
@@ -37,44 +36,43 @@ class Result
      */
     public function getResult()
     {
-        return $this->resultArray;
+        return $this->result;
     }
 
     /**
      * 获取记录里面的第几条
-     * @param int $article
+     * @param int $index
      * @return array
      */
-    public function getArticle($article = 0)
+    public function getOne($index = 0)
     {
-        return isset($this->resultArray[$article]) ? $this->resultArray[$article] : [];
+        return isset($this->result[$index]) ? $this->result[$index] : [];
     }
 
     /**
      * 把数据转成实体对象
-     * @param $className
-     * @param int $article
+     * @param $model
+     * @param int $index
      * @return object
      * @throws Exception
      */
-    public function getInstance($className = null, $article = 0)
+    public function getInstance($model = null, $index = 0)
     {
-        $className = empty($className) ? $this->model : $className;
+        $model = empty($model) ? $this->model : $model;
 
-        return ReflectionUtils::getInstance()
-            ->toObject($this->getArticle($article), $className);
+        return ReflectionUtils::getInstance()->toObject($model, $this->getOne($index));
     }
 
     /**
      * 获取值
-     * @param null $key
-     * @param int $article
-     * @return array|mixed|null
+     * @param string|null $field
+     * @param int $index
+     * @return string|mixed|null
      */
-    public function getValue($key = null, $article = 0)
+    public function getValue(string $field, $index = 0)
     {
-        $articleVal = $this->getArticle($article);
+        $one = $this->getOne($index);
 
-        return $key ? isset($articleVal[$key]) ? $articleVal[$key] : null : $this->resultArray;
+        return isset($one[$field]) ? $one[$field] : null;
     }
 }

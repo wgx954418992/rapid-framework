@@ -4,7 +4,9 @@ namespace rapidPHP\modules\database\sql\classier;
 
 use Exception;
 use rapidPHP\modules\common\classier\StrCharacter;
+use rapidPHP\modules\core\classier\Model;
 use rapidPHP\modules\database\sql\config\SqlConfig;
+use rapidPHP\modules\reflection\classier\Classify;
 
 abstract class Driver
 {
@@ -68,7 +70,7 @@ abstract class Driver
 
         $this->tableName = Utils::getInstance()->getTableName($model);
 
-        $this->tableColumn = Utils::getInstance()->getTableColumn($model);
+        $this->tableColumn = Utils::getInstance()->getTableColumnByModel($model, $this->joinString);
     }
 
     /**
@@ -238,9 +240,11 @@ abstract class Driver
      */
     public function select($column = null)
     {
-        if (empty($column)) $column = $this->tableColumn;
-
-        $column = is_array($column) ? Utils::getInstance()->getTableColumn($this->tableName, $column, $this->joinString, $this->joinString) : $column;
+        if ($column === null) {
+            $column = $this->tableColumn;
+        } else if ($column && is_array($column)) {
+            $column = Utils::getInstance()->formatColumn(join(',', $column), $this->joinString);
+        }
 
         $this->sql['select'] .= "SELECT {$column} FROM {$this->tableName} ";
 
@@ -414,21 +418,36 @@ abstract class Driver
         return $this;
     }
 
-
     /**
      * union
-     * @param $table
-     * @param null $column
+     * @param $callOrDriver
      * @return $this
-     * @throws Exception
      */
-    public function union($table, $column = null)
+    public function union($callOrDriver)
     {
-        $tableName = Utils::getInstance()->getTableName($table);
+        if (is_callable($callOrDriver)) {
+            $driver = call_user_func($callOrDriver);
+        } else {
+            $driver = $callOrDriver;
+        }
 
-        $column = Utils::getInstance()->getTableColumn($table, $column, $this->joinString, $this->joinString);
+        $sql = $driver->getSql();
 
-        $this->sql['select'] .= " UNION SELECT {$column} FROM {$this->joinString}{$tableName}{$this->joinString} ";
+        $options = $driver->getOptions();
+
+        foreach ($options as $name => $value) {
+            $key = $this->getOptionsKey($name);
+
+            $name = ":{$name}";
+
+            $position = strpos($sql, $name);
+
+            if (is_int($position)) {
+                $sql = substr_replace($sql, $key, $position, strlen($name));
+            }
+        }
+
+        $this->sql['select'] = " UNION " . $sql;
 
         return $this;
     }
@@ -730,12 +749,11 @@ abstract class Driver
 
     /**
      * 获取预先执行参数
-     * @param $options
      * @return array
      */
-    public function getOptions($options = [])
+    public function getOptions()
     {
-        return $options ? $options : $this->options;
+        return $this->options;
     }
 
 
@@ -749,7 +767,6 @@ abstract class Driver
         return $name . count($this->getOptions());
     }
 
-
     /**
      * 添加options
      * @param $value
@@ -759,42 +776,32 @@ abstract class Driver
     public function addOptions($value, $key = null)
     {
         $key ? $this->options[$key] = $value : $this->options[] = $value;
+
         return $this;
     }
 
     /**
+     * @return Statement
+     */
+    public function getStatement()
+    {
+        return $this->db->query($this->getSql(), $this->getOptions());
+    }
+
+    /**
      * 除过select都用这个执行
-     * @param array $options
-     * @param $insetId
+     * @param int $insetId
      * @return bool
      */
-    public function execute(array $options = [], &$insetId = -1)
+    public function execute(&$insetId = -1)
     {
-        $options = $this->getOptions($options);
+        $statement = $this->getStatement();
 
-        $exec = new Exec($this->db, $this->getSql());
-
-        $result = $exec->execute($options);
+        $result = $statement->getExecute();
 
         if ($result && $insetId !== -1) $insetId = $this->db->getConnect()->lastInsertId();
 
         return $result;
     }
-
-    /**
-     * select用这个执行
-     * @param array $options
-     * @param int $mode
-     * @return Result
-     */
-    public function get(array $options = [], $mode = 2)
-    {
-        $options = $this->getOptions($options);
-
-        $exec = new Exec($this->db, $this->getSql());
-
-        return $exec->get($this->model, $options, $mode);
-    }
-
 }
 

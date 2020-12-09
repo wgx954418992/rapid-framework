@@ -75,9 +75,9 @@ class Exec
     public function execute(array $options = [], $index = 0)
     {
         try {
-            $result = $this->getDb()->getConnect()->prepare($this->getSql());
+            $statement = $this->getDb()->getConnect()->prepare($this->getSql());
 
-            return $result->execute($options);
+            return $statement->execute($options);
         } catch (PDOException $e) {
             if ($index > 2) throw $e;
 
@@ -99,13 +99,13 @@ class Exec
     public function getPdoStatement(array $options = [], $mode = PDO::FETCH_ASSOC, $index = 0)
     {
         try {
-            $result = $this->getDb()->getConnect()->prepare($this->getSql());
+            $statement = $this->getDb()->getConnect()->prepare($this->getSql());
 
-            $result->execute($options);
+            $statement->execute($options);
 
-            $result->setFetchMode($mode);
+            $statement->setFetchMode($mode);
 
-            return $result;
+            return $statement;
         } catch (PDOException $e) {
             if ($index > 2) throw $e;
 
