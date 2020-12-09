@@ -13,7 +13,6 @@ use rapidPHP\modules\reflection\classier\Utils as ReflectionUtils;
 
 class Statement
 {
-    private $statement;
 
     /**
      * @var array|null
@@ -21,23 +20,49 @@ class Statement
     private $options;
 
     /**
-     * Statement constructor.
-     * @param PDOStatement $statement
-     * @param array $options
+     * @var SQLDB
      */
-    public function __construct(PDOStatement $statement, $options = [])
+    private $db;
+
+    /**
+     * @var string
+     */
+    private $sql;
+
+    /**
+     * Statement constructor.
+     * @param SQLDB $db
+     * @param string $sql
+     */
+    public function __construct(SQLDB $db, string $sql)
     {
-        $this->statement = $statement;
-        $this->options = $options;
+        $this->db = $db;
+
+        $this->sql = $sql;
     }
 
     /**
      * 获取statement
+     * @param null $result
      * @return bool|PDOStatement
+     * @throws Exception
      */
-    public function getStatement()
+    public function getStatement(&$result = null)
     {
-        return $this->statement;
+        try {
+            $statement = @$this->db->getConnect()->prepare($this->sql);
+
+            $result = @$statement->execute($this->options);
+
+            return $statement;
+        } catch (Exception $e) {
+            if ($this->db->onErrorHandler($e)) {
+                return $this->getStatement($result);
+            }
+
+            throw $e;
+        }
+
     }
 
     /**
@@ -57,42 +82,15 @@ class Statement
     }
 
     /**
-     * bindColumn
-     * @return bool
-     */
-    public function bindColumn()
-    {
-        return $this->statement->bindColumn(...func_get_args());
-    }
-
-    /**
-     * bindValue
-     * @return bool
-     */
-    public function bindValue()
-    {
-        return $this->statement->bindColumn(...func_get_args());
-    }
-
-    /**
-     * bindParam
-     * @return bool
-     */
-    public function bindParam()
-    {
-        return $this->statement->bindParam(...func_get_args());
-    }
-
-    /**
      * execute
-     * @param bool $isCloseCursor
      * @return bool
+     * @throws Exception
      */
-    public function execute($isCloseCursor = true)
+    public function execute()
     {
-        $result = $this->statement->execute($this->options);
+        $statement = $this->getStatement($result);
 
-        if ($isCloseCursor) $this->statement->closeCursor();
+        $statement->closeCursor();
 
         return $result;
     }
@@ -105,15 +103,15 @@ class Statement
      */
     public function fetch($model = null)
     {
-        if (!$this->execute(false)) return null;
+        $statement = $this->getStatement();
 
-        $data = $this->statement->fetch(PDO::FETCH_ASSOC);
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
 
-        $this->statement->closeCursor();
+        $statement->closeCursor();
 
         if (empty($data)) return null;
 
-         Build::getInstance()->toTypeConvertByAO($data);
+        Build::getInstance()->toTypeConvertByAO($data);
 
         if (empty($model)) return $data;
 
@@ -124,14 +122,15 @@ class Statement
      * 获取value
      * @param $name
      * @return mixed|null
+     * @throws Exception
      */
     public function fetchValue($name)
     {
-        if (!$this->execute(false)) return null;
+        $statement = $this->getStatement();
 
-        $data = $this->statement->fetch(PDO::FETCH_ASSOC);
+        $data = $statement->fetch(PDO::FETCH_ASSOC);
 
-        $this->statement->closeCursor();
+        $statement->closeCursor();
 
         if (empty($data)) return null;
 
@@ -146,11 +145,11 @@ class Statement
      */
     public function fetchAll($model = null)
     {
-        if (!$this->execute(false)) return null;
+        $statement = $this->getStatement();
 
-        $data = $this->statement->fetchAll(PDO::FETCH_ASSOC);
+        $data = $statement->fetchAll(PDO::FETCH_ASSOC);
 
-        $this->statement->closeCursor();
+        $statement->closeCursor();
 
         if (empty($data)) return null;
 
@@ -159,7 +158,7 @@ class Statement
         if (empty($model)) return $data;
 
         foreach ($data as $index => $datum) {
-            $data[$index] = ReflectionUtils::getInstance()->toObject($model, $data);
+            $data[$index] = ReflectionUtils::getInstance()->toObject($model, $datum);
         }
 
         return $data;

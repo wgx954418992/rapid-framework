@@ -20,12 +20,12 @@ class Mysql extends Driver
     /**
      * Mysql constructor.
      * @param SQLDB $db
-     * @param $model
+     * @param $modelOrClass
      * @throws Exception
      */
-    public function __construct(SQLDB $db, $model)
+    public function __construct(SQLDB $db, $modelOrClass)
     {
-        parent::__construct($db, $model);
+        parent::__construct($db, $modelOrClass);
     }
 
 

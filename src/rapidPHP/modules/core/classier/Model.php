@@ -41,10 +41,11 @@ class Model
      * @param array $names
      * @param int $mode 1获取names下的values 2,排除names下的values
      * @return array
+     * @throws Exception
      */
     public function toData(?array $names = null, int $mode = self::MODEL_GET): array
     {
-        $array = (array)$this;
+        $array = Utils::getInstance()->toArray($this);
 
         if (!empty($names)) {
             switch ($mode) {
@@ -62,6 +63,7 @@ class Model
      * 转xml
      * @param array $names
      * @return string
+     * @throws Exception
      */
     public function toXml(?array $names = null): string
     {
@@ -72,6 +74,7 @@ class Model
      * 转json
      * @param array $names
      * @return string
+     * @throws Exception
      */
     public function toJson(?array $names = null): string
     {
@@ -96,6 +99,7 @@ class Model
 
     /**
      * @return string
+     * @throws Exception
      */
     public function __toString()
     {

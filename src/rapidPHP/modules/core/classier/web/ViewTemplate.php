@@ -9,6 +9,7 @@ use rapidPHP\modules\common\classier\Build;
 use rapidPHP\modules\common\classier\Calendar;
 use rapidPHP\modules\common\classier\File;
 use rapidPHP\modules\common\classier\Path;
+use rapidPHP\modules\core\classier\Model;
 use rapidPHP\modules\core\classier\web\template\TemplateService;
 
 class ViewTemplate
@@ -107,8 +108,12 @@ class ViewTemplate
      */
     public function assign($key, $value = '')
     {
-        if (($key instanceof AB) || is_array($key)) {
+        if (is_array($key)) {
             $this->data->data($key);
+        } else if ($key instanceof AB) {
+            $this->data->data($key->toData());
+        } else if ($key instanceof Model) {
+            $this->data->data($key->toData());
         } else {
             $this->data->value($key, $value);
         }

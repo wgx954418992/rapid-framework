@@ -17,12 +17,6 @@ abstract class Driver
     private $db;
 
     /**
-     * 对应的model
-     * @var string
-     */
-    protected $model = null;
-
-    /**
      * 表名
      * @var mixed|null
      */
@@ -56,20 +50,18 @@ abstract class Driver
     /**
      * Driver constructor.
      * @param SQLDB $db
-     * @param null $model
+     * @param null $modelOrClass
      * @throws Exception
      */
-    public function __construct(SQLDB $db, $model = null)
+    public function __construct(SQLDB $db, $modelOrClass = null)
     {
         $this->db = $db;
 
         $this->sql = SqlConfig::SQL_LIST;
 
-        $this->model = $model;
+        $this->tableName = Utils::getInstance()->getTableName($modelOrClass, $this->joinString);
 
-        $this->tableName = Utils::getInstance()->getTableName($model, $this->joinString);
-
-        $this->tableColumn = Utils::getInstance()->getTableColumnByModel($model, $this->joinString);
+        $this->tableColumn = Utils::getInstance()->getTableColumnByModel($modelOrClass, $this->joinString);
     }
 
     /**
@@ -858,32 +850,22 @@ abstract class Driver
     }
 
     /**
-     * @param int $errCount
      * @return Statement
      */
-    public function getStatement($errCount = 0)
+    public function getStatement()
     {
-        try {
-            $statement = $this->db->query($this->getSql());
+        $statement = $this->db->query($this->getSql());
 
-            $statement->setOptions($this->getOptions());
+        $statement->setOptions($this->getOptions());
 
-            return $statement;
-        } catch (PDOException $e) {
-            if ($errCount > 2) throw $e;
-
-            if ($this->db->handlerException($e)) {
-                return $this->getStatement($errCount + 1);
-            }
-
-            throw $e;
-        }
+        return $statement;
     }
 
     /**
      * 除过select都用这个执行
      * @param int $insetId
      * @return bool
+     * @throws Exception
      */
     public function execute(&$insetId = -1)
     {
