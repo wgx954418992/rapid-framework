@@ -105,6 +105,7 @@ class ViewTemplate
      * @param $key :key或者数据
      * @param string $value 值
      * @return $this
+     * @throws Exception
      */
     public function assign($key, $value = '')
     {

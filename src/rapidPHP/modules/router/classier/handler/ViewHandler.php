@@ -39,6 +39,7 @@ class ViewHandler implements HandlerInterface
      */
     public function onResult(Controller $controller, $result, $options = [])
     {
+
         $action = Build::getInstance()->getData($options, 'action');
 
         if ($result instanceof ViewTemplate) {
@@ -62,11 +63,7 @@ class ViewHandler implements HandlerInterface
 
                 $view = View::display($controller, $template);
 
-                if ($result instanceof AB) {
-                    $view->setData($result);
-                } elseif ($result instanceof Model) {
-                    $view->assign($result);
-                }
+                $view->assign($result);
 
                 return $view->view();
             }
