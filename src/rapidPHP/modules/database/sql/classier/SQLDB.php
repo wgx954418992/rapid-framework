@@ -5,7 +5,6 @@ namespace rapidPHP\modules\database\sql\classier;
 
 use Exception;
 use PDO;
-use rapidPHP\modules\core\classier\Model;
 use rapidPHP\modules\database\sql\config\ConnectConfig;
 use rapidPHP\modules\reflection\classier\Classify;
 
@@ -76,16 +75,16 @@ class SQLDB
 
     /**
      * 选择表
-     * @param Model|string $modelOrClass
+     * @param string $tableName
      * @return Driver
      * @throws Exception
      */
-    public function table($modelOrClass = null)
+    public function table($tableName = null)
     {
         $config = $this->getConfig();
 
         $driver = Classify::getInstance($config->getDriver())
-            ->newInstance($this, $modelOrClass);
+            ->newInstance($this, $tableName);
 
         if ($driver instanceof Driver) return $driver;
 

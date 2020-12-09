@@ -177,13 +177,11 @@ class SQLTest extends TestCase
      */
     public function testUnion()
     {
-        $statisticalModel = new StatisticalModel();
-
-        $driver = $this->db->table($statisticalModel)
+        $driver = $this->db->table(StatisticalModel::NAME)
             ->select()
             ->alias('a')
-            ->union(function () use ($statisticalModel) {
-                return $this->db->table($statisticalModel)
+            ->union(function () {
+                return $this->db->table(StatisticalModel::NAME)
                     ->select()
                     ->alias('c')
                     ->like('c.url', 'rapid');
@@ -201,19 +199,15 @@ class SQLTest extends TestCase
      */
     public function testJoin()
     {
-        $statisticalModel = new StatisticalModel();
-
-        $columnModel = new ColumnModel();
-
-        $driver = $this->db->table($statisticalModel)
+        $driver = $this->db->table(StatisticalModel::NAME)
             ->select('*')
             ->alias('a')
-            ->join($columnModel, function () use ($columnModel) {
-                return $this->db->table($columnModel)->alias('b')
+            ->join(ColumnModel::NAME, function () {
+                return $this->db->table(ColumnModel::NAME)->alias('b')
                     ->on('b.isDeleted', 0);
             })
-            ->join($columnModel, function () use ($columnModel) {
-                return $this->db->table($columnModel)->alias('e')
+            ->join(ColumnModel::NAME, function () {
+                return $this->db->table(ColumnModel::NAME)->alias('e')
                     ->on('e.isDeleted', 0);
             })
             ->where('a.isDeleted', 0)
@@ -231,13 +225,10 @@ class SQLTest extends TestCase
      */
     public function testUpdate()
     {
-        $statisticalModel = new StatisticalModel();
 
-        $columnModel = new ColumnModel();
-
-        $driver = $this->db->table($statisticalModel)
-            ->update(['url' => function () use ($columnModel) {
-                return $this->db->table($columnModel)
+        $driver = $this->db->table(StatisticalModel::NAME)
+            ->update(['url' => function () {
+                return $this->db->table(ColumnModel::NAME)
                     ->select('`name`')->limit(1);
             }]);
 
@@ -252,15 +243,13 @@ class SQLTest extends TestCase
      */
     public function testSelect()
     {
-        $statisticalModel = new StatisticalModel();
-
         $driver = $this->db->table(null)
-            ->select('url', function () use ($statisticalModel) {
-                return $this->db->table($statisticalModel)
+            ->select('url', function () {
+                return $this->db->table(StatisticalModel::NAME)
                     ->select()
                     ->alias('a')
-                    ->union(function () use ($statisticalModel) {
-                        return $this->db->table($statisticalModel)
+                    ->union(function () {
+                        return $this->db->table(StatisticalModel::NAME)
                             ->select()
                             ->alias('c')
                             ->like('c.url', 'rapid');

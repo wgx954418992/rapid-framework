@@ -8,7 +8,6 @@ use Exception;
 use PDO;
 use PDOStatement;
 use rapidPHP\modules\common\classier\Build;
-use rapidPHP\modules\core\classier\Model;
 use rapidPHP\modules\reflection\classier\Utils as ReflectionUtils;
 
 class Statement
@@ -97,11 +96,11 @@ class Statement
 
     /**
      * 获取一条
-     * @param Model|string|null $model
+     * @param string|null $objectClass
      * @return mixed|object|void|null
      * @throws Exception
      */
-    public function fetch($model = null)
+    public function fetch($objectClass = null)
     {
         $statement = $this->getStatement();
 
@@ -113,9 +112,9 @@ class Statement
 
         Build::getInstance()->toTypeConvertByAO($data);
 
-        if (empty($model)) return $data;
+        if (empty($objectClass)) return $data;
 
-        return ReflectionUtils::getInstance()->toObject($model, $data);
+        return ReflectionUtils::getInstance()->toObject($objectClass, $data);
     }
 
     /**
@@ -139,11 +138,11 @@ class Statement
 
     /**
      * 获取全部
-     * @param Model|string|null $model
+     * @param string|null $objectClass
      * @return mixed|object|void|null
      * @throws Exception
      */
-    public function fetchAll($model = null)
+    public function fetchAll($objectClass = null)
     {
         $statement = $this->getStatement();
 
@@ -155,10 +154,10 @@ class Statement
 
         Build::getInstance()->toTypeConvertByAO($data);
 
-        if (empty($model)) return $data;
+        if (empty($objectClass)) return $data;
 
         foreach ($data as $index => $datum) {
-            $data[$index] = ReflectionUtils::getInstance()->toObject($model, $datum);
+            $data[$index] = ReflectionUtils::getInstance()->toObject($objectClass, $datum);
         }
 
         return $data;

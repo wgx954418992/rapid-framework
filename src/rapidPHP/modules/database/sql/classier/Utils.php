@@ -11,7 +11,6 @@ use rapidPHP\modules\reflection\classier\Classify;
 class Utils
 {
 
-
     /**
      * @var Utils
      */

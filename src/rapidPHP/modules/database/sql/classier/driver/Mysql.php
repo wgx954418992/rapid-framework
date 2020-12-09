@@ -20,12 +20,12 @@ class Mysql extends Driver
     /**
      * Mysql constructor.
      * @param SQLDB $db
-     * @param $modelOrClass
+     * @param $tableName
      * @throws Exception
      */
-    public function __construct(SQLDB $db, $modelOrClass)
+    public function __construct(SQLDB $db, $tableName)
     {
-        parent::__construct($db, $modelOrClass);
+        parent::__construct($db, $tableName);
     }
 
 
@@ -123,13 +123,13 @@ class Mysql extends Driver
      * getTableStructure
      * @param $type
      * @param string $database
-     * @param $table
+     * @param $tableName
      * @return $this
      * @throws Exception
      */
-    public function getTableStructure($type, $database, $table)
+    public function getTableStructure($type, $database, $tableName)
     {
-        $tableName = Utils::getInstance()->getTableName($table);
+        $tableName = Utils::getInstance()->formatColumn($tableName);
 
         $this->sql['query'] = $this->getTableStructureSql($type, $database, $tableName);
 
@@ -157,13 +157,13 @@ class Mysql extends Driver
      * getTableStructure
      * @param $type
      * @param string $database
-     * @param $table
+     * @param $tableName
      * @return $this
      * @throws Exception
      */
-    public function getTableCreateSql($type, $database, $table)
+    public function getTableCreateSql($type, $database, $tableName)
     {
-        $tableName = Utils::getInstance()->getTableName($table);
+        $tableName = Utils::getInstance()->formatColumn($tableName);
 
         $this->sql['query'] = $this->getTableCreateSqlString($type, $database, $tableName);
 

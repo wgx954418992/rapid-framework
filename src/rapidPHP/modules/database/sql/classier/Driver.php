@@ -3,7 +3,6 @@
 namespace rapidPHP\modules\database\sql\classier;
 
 use Exception;
-use PDOException;
 use rapidPHP\modules\common\classier\StrCharacter;
 use rapidPHP\modules\database\sql\config\SqlConfig;
 
@@ -21,12 +20,6 @@ abstract class Driver
      * @var mixed|null
      */
     protected $tableName = null;
-
-    /**
-     * 字段
-     * @var mixed|null
-     */
-    protected $tableColumn = null;
 
     /**
      * 预先执行参数
@@ -50,18 +43,32 @@ abstract class Driver
     /**
      * Driver constructor.
      * @param SQLDB $db
-     * @param null $modelOrClass
+     * @param null $tableName
      * @throws Exception
      */
-    public function __construct(SQLDB $db, $modelOrClass = null)
+    public function __construct(SQLDB $db, $tableName)
     {
         $this->db = $db;
 
         $this->sql = SqlConfig::SQL_LIST;
 
-        $this->tableName = Utils::getInstance()->getTableName($modelOrClass, $this->joinString);
+        $this->tableName = Utils::getInstance()->formatColumn($tableName, $this->joinString);
+    }
 
-        $this->tableColumn = Utils::getInstance()->getTableColumnByModel($modelOrClass, $this->joinString);
+    /**
+     * @return mixed|null
+     */
+    public function getTableName()
+    {
+        return $this->tableName;
+    }
+
+    /**
+     * @return string
+     */
+    public function getJoinString(): string
+    {
+        return $this->joinString;
     }
 
     /**
@@ -136,8 +143,6 @@ abstract class Driver
     public function createTable(array $column = [])
     {
         $values = '';
-
-        $column = $column ? $column : isset($this->tableColumn) ? $this->tableColumn : [];
 
         foreach ($column as $name => $value) {
             $name = Utils::getInstance()->formatColumn($name, $this->joinString);
@@ -284,11 +289,9 @@ abstract class Driver
      * @param null $callOrDriver
      * @return $this
      */
-    public function select($column = null, $callOrDriver = null)
+    public function select($column, $callOrDriver = null)
     {
-        if ($column === null) {
-            $column = $this->tableColumn;
-        } else if ($column && is_array($column)) {
+        if ($column && is_array($column)) {
             $column = Utils::getInstance()->formatColumn(join(',', $column), $this->joinString);
         }
 
@@ -332,23 +335,23 @@ abstract class Driver
 
     /**
      * JOIN
-     * @param $table
+     * @param $tableName
      * @param $callOrDriver
      * @param null $location
      * @return $this
      */
-    public function join($table, $callOrDriver = null, $location = null)
+    public function join($tableName, $callOrDriver = null, $location = null)
     {
-        $table = Utils::getInstance()->getTableName($table, $this->joinString);
+        $tableName = Utils::getInstance()->formatColumn($tableName, $this->joinString);
 
         $currentSql = $this->getSql();
 
         $this->resetSql();
 
         if (empty($currentSql)) {
-            $this->sql['join'] = " {$location} JOIN {$table}{$this->getDriverSql($callOrDriver)} ";
+            $this->sql['join'] = " {$location} JOIN {$tableName}{$this->getDriverSql($callOrDriver)} ";
         } else {
-            $this->sql['join'] = "{$currentSql} {$location} JOIN {$table}{$this->getDriverSql($callOrDriver)}";
+            $this->sql['join'] = "{$currentSql} {$location} JOIN {$tableName}{$this->getDriverSql($callOrDriver)}";
         }
 
         return $this;
