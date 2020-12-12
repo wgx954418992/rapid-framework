@@ -92,7 +92,7 @@ class SQLSource
      * @return SQLDB
      * @throws Exception
      */
-    public static function getSavleDB()
+    public static function getSalveDB()
     {
         return self::getDB(self::DB_SALVE);
     }
