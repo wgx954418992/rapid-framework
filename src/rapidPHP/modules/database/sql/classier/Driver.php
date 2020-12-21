@@ -756,6 +756,16 @@ abstract class Driver
 
 
     /**
+     * for update
+     * @return $this
+     */
+    public function forUpdate()
+    {
+        $this->sql['select'] .= " for update ";
+        return $this;
+    }
+
+    /**
      * getTables
      * @param $type
      * @param $database
