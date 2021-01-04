@@ -1,10 +1,11 @@
 <?php
 
-namespace rapidPHP\modules\common\classier;
+namespace rapidPHP\modules\console\classier;
 
 use Exception;
+use rapidPHP\modules\common\classier\Instances;
 
-class Console
+class Utils
 {
 
     /**
@@ -263,20 +264,4 @@ class Console
 
         return $this->threadExec($bin, $param, $sleep);
     }
-
-    /**
-     * 解析参数 --a 1 --b 2
-     * @param $name
-     * @return mixed|null
-     */
-    public function getParam($name)
-    {
-        $value = getopt('', ["{$name}:"]);
-
-        if (array_key_exists($name, $value)) return $value[$name];
-
-        return null;
-    }
-
-
 }

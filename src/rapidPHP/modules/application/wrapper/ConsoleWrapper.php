@@ -1,16 +1,12 @@
 <?php
 
-
 namespace rapidPHP\modules\application\wrapper;
 
 use rapidPHP\modules\application\classier\context\WebContext;
-use rapidPHP\modules\application\wrapper\application\ScansWrapper;
-use rapidPHP\modules\application\wrapper\application\WebWrapper;
 use rapidPHP\modules\server\config\SessionConfig;
 
-class ApplicationWrapper
+class ConsoleWrapper
 {
-
 
     /**
      * @var SessionConfig|null
@@ -21,16 +17,6 @@ class ApplicationWrapper
      * @var string|WebContext|null
      */
     private $context;
-
-    /**
-     * @var ScansWrapper|null
-     */
-    private $scans;
-
-    /**
-     * @var WebWrapper|null
-     */
-    private $web;
 
     /**
      * @return SessionConfig|null
@@ -63,39 +49,4 @@ class ApplicationWrapper
     {
         $this->context = $context;
     }
-
-
-    /**
-     * @return ScansWrapper|null
-     */
-    public function getScans(): ?ScansWrapper
-    {
-        return $this->scans;
-    }
-
-    /**
-     * @param ScansWrapper|null $scans
-     */
-    public function setScans(?ScansWrapper $scans): void
-    {
-        $this->scans = $scans;
-    }
-
-
-    /**
-     * @return WebWrapper|null
-     */
-    public function getWeb(): ?WebWrapper
-    {
-        return $this->web;
-    }
-
-    /**
-     * @param WebWrapper|null $web
-     */
-    public function setWeb(?WebWrapper $web): void
-    {
-        $this->web = $web;
-    }
-
 }
