@@ -125,7 +125,7 @@ class ConsoleRouter extends Router
 
             $action = $this->getMatchingAction($realPath, $route, $pathVariable, $index);
 
-            if (!$action) throw new Exception('Not match action');
+            if (!$action) throw new Exception('Not match action', 404);
 
             $this->getContext()->onInvokeActionBefore($this, $action, $route, $pathVariable, $realPath);
 

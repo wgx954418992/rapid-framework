@@ -21,7 +21,7 @@ class Output implements IOOutput
 
         $backgroundColor = B()->getData($options, 1);
 
-        echo Utils::getInstance()->getColoredString($data, $foregroundColor, $backgroundColor);
+        echo Utils::getInstance()->getColoredString($data, $foregroundColor, $backgroundColor) . "\n";
 
         return true;
     }
@@ -45,8 +45,7 @@ class Output implements IOOutput
     public function psuccess(?string $data): bool
     {
         return $this->write($data, [
-            Utils::FOREGROUND_COLOR_WHITE,
-            Utils::BACKGROUND_COLOR_GREEN,
+            Utils::FOREGROUND_COLOR_LIGHT_GREEN,
         ]);
     }
 
@@ -59,7 +58,7 @@ class Output implements IOOutput
     public function perror(?string $data): bool
     {
         return $this->write($data, [
-            Utils::FOREGROUND_COLOR_WHITE,
+            Utils::FOREGROUND_COLOR_YELLOW,
             Utils::BACKGROUND_COLOR_RED,
         ]);
     }
