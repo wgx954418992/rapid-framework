@@ -773,7 +773,7 @@ abstract class Driver
      */
     public function forUpdate()
     {
-        $this->sql['select'] .= " for update ";
+        $this->sql['sql'] .= " for update ";
         return $this;
     }
 
