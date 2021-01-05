@@ -825,6 +825,8 @@ abstract class Driver
         $options = $this->getOptions();
 
         foreach ($options as $name => $value) {
+            if (is_bool($value)) $value = (int)$value;
+
             if (!is_numeric($value)) $value = "'{$value}'";
 
             $name = ":{$name}";
