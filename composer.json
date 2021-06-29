@@ -1,6 +1,6 @@
 {
   "name": "wgx954418992/rapid-framework",
-  "version": "3.7.4",
+  "version": "3.7.5",
   "description": "Fast, simple and practical php framework",
   "keywords": [
     "framework",
@@ -35,7 +35,7 @@
     "ext-sockets": "*",
     "ext-xmlwriter": "*",
     "ext-zip": "*",
-    "monolog/monolog": "2.2",
+    "monolog/monolog": "^1.26",
     "mustangostang/spyc": "0.6.3",
     "voku/anti-xss": "4.1"
   },
