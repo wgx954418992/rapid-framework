@@ -76,7 +76,7 @@ abstract class Application
      * @return Logger|null
      * @throws Exception
      */
-    public function logger($name = self::LOGGER_WARNING): ?Logger
+    public function logger(string $name = self::LOGGER_WARNING): ?Logger
     {
         $config = $this->getConfig()->getLogConfig($name);
 

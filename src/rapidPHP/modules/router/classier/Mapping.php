@@ -61,7 +61,7 @@ class Mapping
      * @param array $actions
      * @throws Exception
      */
-    public function scanning($paths, &$routes = [], &$actions = [])
+    public function scanning($paths, array &$routes = [], array &$actions = [])
     {
         if (empty($paths)) return;
 
@@ -113,7 +113,7 @@ class Mapping
      * @return void
      * @throws Exception
      */
-    protected function compileMapping(Classify $classify, &$routes = [], &$actions = [])
+    protected function compileMapping(Classify $classify, array &$routes = [], array &$actions = [])
     {
         /** @var DocComment $classComment */
         $classComment = $classify->getDocComment(DocComment::class);
