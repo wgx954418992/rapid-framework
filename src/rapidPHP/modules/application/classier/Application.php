@@ -63,7 +63,7 @@ abstract class Application
     }
 
     /**
-     * @return array|ConfigWrapper
+     * @return ConfigWrapper
      */
     public function getConfig()
     {

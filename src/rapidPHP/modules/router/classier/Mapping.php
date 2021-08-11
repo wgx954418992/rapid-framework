@@ -310,9 +310,21 @@ class Mapping
      */
     public function save($routes = null, $actions = null)
     {
-        if (!is_null($routes)) $this->write(self::ROUTES_FILE_PATH, json_encode($routes));
+        if (!is_null($routes)) {
+            $lastTime = filemtime(self::ROUTES_FILE_PATH);
 
-        if (!is_null($actions)) $this->write(self::ACTIONS_FILE_PATH, json_encode($actions));
+            if (!(is_int($lastTime) && $lastTime + 1 > time())) {
+                $this->write(self::ROUTES_FILE_PATH, json_encode($routes));
+            }
+        }
+
+        if (!is_null($actions)) {
+            $lastTime = filemtime(self::ACTIONS_FILE_PATH);
+
+            if (!(is_int($lastTime) && $lastTime + 1 > time())) {
+                $this->write(self::ACTIONS_FILE_PATH, json_encode($actions));
+            }
+        }
     }
 
     /**

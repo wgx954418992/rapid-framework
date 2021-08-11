@@ -3,6 +3,7 @@
 
 namespace rapidPHP;
 
+use rapidPHP\modules\core\classier\DI;
 use Spyc;
 use Exception;
 use rapidPHP\modules\application\config\ApplicationConfig;
@@ -169,6 +170,27 @@ function VT($view): ?ViewTemplate
     if ($view instanceof ViewTemplate) return $view;
 
     return null;
+}
+
+/**
+ * di
+ * @param $class
+ * @param ...$supports
+ * @return false|mixed|void
+ */
+function DI($class, ...$supports)
+{
+    if (func_num_args() <= 1) {
+        if (!is_array($class)) {
+            return DI::resolveArgument($class);
+        } else {
+            DI::supportsParameter($class);
+        }
+    } else {
+        DI::supportParameter($class, ...$supports);
+    }
+
+    return;
 }
 
 /**
