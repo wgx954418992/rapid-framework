@@ -3,7 +3,7 @@
 
 namespace rapidPHP;
 
-use rapidPHP\modules\config\classier\Config;
+use rapidPHP\modules\config\classier\PConfig;
 use rapidPHP\modules\core\classier\DI;
 use Exception;
 use rapidPHP\modules\application\wrapper\ConfigWrapper;
@@ -26,7 +26,7 @@ use rapidPHP\modules\reflection\classier\Utils;
 if (version_compare(PHP_VERSION, '7.1.0', '<')) die('require PHP > 7.1.0 !');
 
 //运行模式
-define('RAPIDPHP_VERSION', '3.8.8');
+define('RAPIDPHP_VERSION', '3.8.9');
 
 //运行模式
 define('APP_RUNNING_SAPI_NAME', php_sapi_name());
@@ -236,7 +236,7 @@ class Init
      * Init constructor.
      * @throws RuntimeException
      */
-    public function __construct(Config $config)
+    public function __construct(PConfig $config)
     {
         try {
             $this->setConfig($config->getConfig());

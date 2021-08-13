@@ -1,17 +1,17 @@
 <?php
 
 
-namespace rapidPHP\modules\router\classier;
+namespace rapidPHP\modules\router\classier\reflection;
 
 
 use Exception;
 use rapidPHP\modules\reflection\classier\DocComment as ReflectionDocComment;
-use rapidPHP\modules\router\classier\annotation\Encode;
-use rapidPHP\modules\router\classier\annotation\Header;
-use rapidPHP\modules\router\classier\annotation\Method;
-use rapidPHP\modules\router\classier\annotation\Route;
-use rapidPHP\modules\router\classier\annotation\Template;
-use rapidPHP\modules\router\classier\annotation\Typed;
+use rapidPHP\modules\router\classier\reflection\annotation\Encode;
+use rapidPHP\modules\router\classier\reflection\annotation\Header;
+use rapidPHP\modules\router\classier\reflection\annotation\Method;
+use rapidPHP\modules\router\classier\reflection\annotation\Route;
+use rapidPHP\modules\router\classier\reflection\annotation\Template;
+use rapidPHP\modules\router\classier\reflection\annotation\Typed;
 use rapidPHP\modules\router\config\AnnotationConfig;
 
 class DocComment extends ReflectionDocComment

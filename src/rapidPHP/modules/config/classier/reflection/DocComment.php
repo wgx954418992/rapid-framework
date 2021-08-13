@@ -1,11 +1,11 @@
 <?php
 
 
-namespace rapidPHP\modules\config\classier;
+namespace rapidPHP\modules\config\classier\reflection;
 
 
 use Exception;
-use rapidPHP\modules\config\classier\annotation\Config as ConfigAnnotation;
+use rapidPHP\modules\config\classier\reflection\annotation\Config as ConfigAnnotation;
 use rapidPHP\modules\config\config\AnnotationConfig;
 use rapidPHP\modules\reflection\classier\DocComment as ReflectionDocComment;
 

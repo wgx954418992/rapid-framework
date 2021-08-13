@@ -152,7 +152,7 @@ class ConsoleRouter extends Router
      * @param Action $action
      * @throws Exception
      */
-    protected function onResult(Controller $controller, Route $route, Action $action, $result)
+    public function onResult(Controller $controller, Route $route, Action $action, $result)
     {
         $service = Handler::getInstance()->getService($result, $action->getTyped());
 

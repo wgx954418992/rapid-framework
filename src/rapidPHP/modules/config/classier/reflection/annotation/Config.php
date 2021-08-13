@@ -1,7 +1,7 @@
 <?php
 
 
-namespace rapidPHP\modules\config\classier\annotation;
+namespace rapidPHP\modules\config\classier\reflection\annotation;
 
 
 use rapidPHP\modules\config\config\AnnotationConfig;

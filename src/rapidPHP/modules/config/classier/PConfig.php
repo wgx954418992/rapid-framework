@@ -11,10 +11,11 @@ use rapidPHP\modules\config\classier\loader\JsonLoader;
 use rapidPHP\modules\config\classier\loader\PHPLoader;
 use rapidPHP\modules\config\classier\loader\XmlLoader;
 use rapidPHP\modules\config\classier\loader\YamlLoader;
+use rapidPHP\modules\config\classier\reflection\DocComment;
 use rapidPHP\modules\reflection\classier\Classify;
 use function rapidPHP\AR;
 
-class Config
+class PConfig
 {
 
     /**
@@ -42,7 +43,17 @@ class Config
      * @var string[]
      */
     protected $paths = [
+        PATH_APP . 'application.yaml'
     ];
+
+    /**
+     * Config constructor.
+     * @throws Exception
+     */
+    public function __construct()
+    {
+        $this->config = ApplicationConfig::getDefaultConfig();
+    }
 
     /**
      * set paths
@@ -80,20 +91,11 @@ class Config
     }
 
     /**
-     * Config constructor.
-     * @throws Exception
-     */
-    public function __construct()
-    {
-        $this->config = ApplicationConfig::getDefaultConfig();
-    }
-
-    /**
      * 获取loader
      * @param string $filename
      * @return ILoader|null
      */
-    protected function getLoader(string $filename): ?ILoader
+    public function getLoader(string $filename): ?ILoader
     {
         /** @var ILoader[] $loaders */
         $loaders = [JsonLoader::getInstance(), PHPLoader::getInstance(), XmlLoader::getInstance(), YamlLoader::getInstance()];
@@ -167,7 +169,7 @@ class Config
             $config = $comment->getConfigAnnotation();
 
             if ($config != null) {
-                $value = Config::getInstance()->value($config->getName());
+                $value = PConfig::getInstance()->value($config->getName());
 
                 $property->setValue($value, $object);
             }

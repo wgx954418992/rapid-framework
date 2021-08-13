@@ -1,20 +1,21 @@
 <?php
 
 
-namespace rapidPHP\modules\router\classier\annotation;
+namespace rapidPHP\modules\router\classier\reflection\annotation;
 
 use rapidPHP\modules\reflection\classier\annotation\Value;
 use rapidPHP\modules\router\config\AnnotationConfig;
 
-class Template extends Value
+class Typed extends Value
 {
 
     /**
-     * Template constructor.
+     * Typed constructor.
      * @param $value
      */
     public function __construct($value)
     {
-        parent::__construct(AnnotationConfig::AT_TEMPLATE, $value);
+        parent::__construct(AnnotationConfig::AT_TYPED, $value);
     }
+
 }
