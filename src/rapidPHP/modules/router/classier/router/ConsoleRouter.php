@@ -83,7 +83,7 @@ class ConsoleRouter extends Router
      */
     protected function scanning(?array &$routes = [], ?array &$actions = [])
     {
-        $paths = $this->getApplication()->getConfig()->getApplication()->getScans()->getController();
+        $paths = $this->getApplication()->getConfigWrapper()->getApplication()->getScans()->getController();
 
         $routes = [];
 

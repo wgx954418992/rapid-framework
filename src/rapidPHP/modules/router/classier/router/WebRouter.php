@@ -106,7 +106,7 @@ class WebRouter extends Router
 
         if (!(is_null($ip) || Build::getInstance()->isIntranet($ip))) return;
 
-        $paths = $this->getApplication()->getConfig()->getApplication()->getScans()->getController();
+        $paths = $this->getApplication()->getConfigWrapper()->getApplication()->getScans()->getController();
 
         $routes = [];
 
@@ -195,7 +195,7 @@ class WebRouter extends Router
 
         if ($this->response instanceof SwooleWebSocketResponse) {
             $returnKey = $this->getApplication()
-                ->getConfig()
+                ->getConfigWrapper()
                 ->getServer()
                 ->getSwoole()
                 ->getWebsocket()
