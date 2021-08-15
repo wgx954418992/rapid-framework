@@ -59,7 +59,7 @@ abstract class Application
         $this->config = $config;
 
         $this->config->observer(function () {
-            $this->configWrapper = Utils::getInstance()->toObject(ConfigWrapper::class, $config->getConfig());
+            $this->configWrapper = Utils::getInstance()->toObject(ConfigWrapper::class, $this->config->getConfig());
         });
 
         self::$instances[static::class] = $this;
