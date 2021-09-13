@@ -29,7 +29,6 @@
     "ext-mbstring": "*",
     "ext-openssl": "*",
     "ext-pdo": "*",
-    "ext-posix": "*",
     "ext-redis": "*",
     "ext-simplexml": "*",
     "ext-sockets": "*",
