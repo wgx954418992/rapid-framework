@@ -154,8 +154,10 @@ class Utils
                     } else {
                         $result[] = $this->toObject($type, $value);
                     }
+                } else if (Variable::isSetType($value)) {
+                    $result[] = $this->toObject($type, $value);
                 } else {
-                    if (get_class($value) === $type) {
+                    if (is_object($value) && get_class($value) === $type) {
                         $result[] = $value;
                     } else if (is_subclass_of($value, $type)) {
                         $result[] = $value;
@@ -182,6 +184,12 @@ class Utils
         if (is_null($object)) return null;
 
         if (!is_object($object) && !is_string($object)) return null;
+
+        if (is_subclass_of($object, Enum::class) ||
+            is_subclass_of($object, Options::class)) {
+
+            return call_user_func_array("{$object}::i", $data === null ? [] : (is_array($data) ? $data : [$data]));
+        }
 
         if (empty($data)) {
             $data = [];

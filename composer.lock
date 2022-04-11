@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "433151a3087546633be5903f6cbde1dc",
+    "content-hash": "62f348c67cea2da04d7c126713b8f883",
     "packages": [
         {
             "name": "monolog/monolog",
@@ -901,16 +901,16 @@
         },
         {
             "name": "wgx954418992/php-enum",
-            "version": "1.1.2",
+            "version": "1.1.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/wgx954418992/php-enum.git",
-                "reference": "ca88930d9d3af0a54d698184599d859cc5cffa59"
+                "reference": "af57a7fa7bbc22292bbf746c0eb469abb20f2b6e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/wgx954418992/php-enum/zipball/ca88930d9d3af0a54d698184599d859cc5cffa59",
-                "reference": "ca88930d9d3af0a54d698184599d859cc5cffa59",
+                "url": "https://api.github.com/repos/wgx954418992/php-enum/zipball/af57a7fa7bbc22292bbf746c0eb469abb20f2b6e",
+                "reference": "af57a7fa7bbc22292bbf746c0eb469abb20f2b6e",
                 "shasum": "",
                 "mirrors": [
                     {
@@ -945,9 +945,9 @@
             ],
             "support": {
                 "issues": "https://github.com/wgx954418992/php-enum/issues",
-                "source": "https://github.com/wgx954418992/php-enum/tree/1.1.2"
+                "source": "https://github.com/wgx954418992/php-enum/tree/1.1.3"
             },
-            "time": "2022-04-11T04:05:32+00:00"
+            "time": "2022-04-11T05:56:04+00:00"
         }
     ],
     "packages-dev": [
