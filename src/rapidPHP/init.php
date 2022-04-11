@@ -27,7 +27,7 @@ define('RAPIDPHP_VERSION', '3.9.9.4');
 define('APP_RUNNING_SAPI_NAME', php_sapi_name());
 
 //运行模式是否命令运行
-define('APP_RUNNING_IS_SHELL', isset($_SERVER['SHELL']));
+define('APP_RUNNING_IS_SHELL', preg_match("/cli/i", php_sapi_name()) ? true : false);
 
 //项目根目录
 define('PATH_ROOT', str_replace('\\', '/', dirname(dirname(dirname(dirname(dirname(__DIR__)))))) . '/');
