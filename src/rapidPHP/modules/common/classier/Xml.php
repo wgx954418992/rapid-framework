@@ -26,7 +26,7 @@ class Xml
      */
     public function __construct()
     {
-        libxml_disable_entity_loader(true);
+
     }
 
     /**
