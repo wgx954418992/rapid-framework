@@ -256,7 +256,7 @@ abstract class Request implements Input
     /**
      * 获取请求变量
      * @param $name
-     * @param null $method ：方法(get|post|cookie|session|put)
+     * @param $method ：方法(get|post|cookie|session|put)
      * @return mixed|array|string|int|null
      * @throws Exception
      */
@@ -283,7 +283,7 @@ abstract class Request implements Input
 
     /**
      * 获取header
-     * @param null $name
+     * @param $name
      * @return mixed|array|string|int|null
      */
     public function header($name = null)
@@ -436,7 +436,7 @@ abstract class Request implements Input
 
     /**
      * 通过参数生成url
-     * @param null $path
+     * @param $path
      * @return string
      */
     public function toUrl($path = null): string

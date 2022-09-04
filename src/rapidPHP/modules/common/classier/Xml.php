@@ -57,7 +57,7 @@ class Xml
      * xml数据转换
      * @param XMLWriter $xml
      * @param array $array
-     * @param null $rKey
+     * @param $rKey
      * @return XMLWriter
      */
     private function xmlData(XMLWriter $xml, array $array, $rKey = null): XMLWriter
