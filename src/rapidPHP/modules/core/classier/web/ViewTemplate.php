@@ -111,11 +111,11 @@ class ViewTemplate
     /**
      * 设置变量
      * @param $key :key或者数据
-     * @param string $value 值
+     * @param mixed $value :值
      * @return $this
      * @throws Exception
      */
-    public function assign($key, string $value = '')
+    public function assign($key, $value = '')
     {
         if (is_array($key)) {
             $this->data->data($key);
