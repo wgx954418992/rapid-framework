@@ -62,7 +62,7 @@ class Statement
     public function getStatement(&$result = null)
     {
         $statement = null;
-        
+
         try {
             $statement = @$this->db->getConnect()->prepare($this->sql);
 
@@ -84,13 +84,12 @@ class Statement
 
             return $statement;
         } catch (Exception $e) {
-            if ($statement && $this->db->onErrorHandler($statement)){
+            if ($this->db->onErrorHandler()) {
                 return $this->getStatement($result);
             }
 
             throw $e;
         }
-
     }
 
     /**
