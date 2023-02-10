@@ -34,10 +34,10 @@ abstract class SQLDao
 
     /**
      * SQLDao constructor.
-     * @param SQLDB $db
+     * @param $db
      * @param $modelOrClass
      */
-    public function __construct(callable $db, $modelOrClass)
+    public function __construct($db, $modelOrClass)
     {
         $this->db = $db;
 
@@ -57,7 +57,9 @@ abstract class SQLDao
      */
     public function getDb()
     {
-        return call_user_func_array($this->db, []);
+        if (is_callable($this->db)) return call_user_func_array($this->db, []);
+
+        return $this->db;
     }
 
     /**
