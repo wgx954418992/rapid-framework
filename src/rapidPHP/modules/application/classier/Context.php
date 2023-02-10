@@ -134,7 +134,7 @@ abstract class Context
      * @param Route $route
      * @param $result
      */
-    public function onInvokeActionAfter(Router $router, Action $action, Route $route, $result)
+    public function onInvokeActionAfter(Router $router, Action $action, Route $route, &$result)
     {
 
     }
