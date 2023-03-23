@@ -12,7 +12,7 @@ abstract class SQLDao
 
     /**
      * SQL DB 子类可以继承这个，如果要实现读写分类，主从分离，就继承不同的SQLDao
-     * @var callable
+     * @var callable|SQLDB
      */
     protected $db;
 
