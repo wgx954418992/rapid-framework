@@ -242,7 +242,7 @@ abstract class Request implements Input
      */
     public function request($name = null)
     {
-        $req = array_merge($this->get(), $this->post(), $this->cookie(), $this->session(), $this->file());
+        $req = array_merge($this->cookie(), $this->session(), $this->file(), $this->get(), $this->post());
 
         if (is_null($name)) return $req;
 
@@ -256,7 +256,7 @@ abstract class Request implements Input
     /**
      * 获取请求变量
      * @param $name
-     * @param $method ：方法(get|post|cookie|session|put)
+     * @param $method :方法(get|post|cookie|session|put)
      * @return mixed|array|string|int|null
      * @throws Exception
      */
@@ -457,7 +457,7 @@ abstract class Request implements Input
             if ($value instanceof Model) {
                 try {
                     $data = array_merge($data, $value->toData());
-                }catch (Exception $E){
+                } catch (Exception $E) {
 
                 }
             } else {
