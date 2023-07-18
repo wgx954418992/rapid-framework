@@ -29,7 +29,7 @@ class Utils
      */
     public function formatColumn($column, string $joinString = '`')
     {
-        return preg_replace('/(.*?)(\w+)/i', "$1{$joinString}$2{$joinString}", $column);
+        return preg_replace('/(.*?)([a-zA-Z0-9$_-]+)/i', "$1{$joinString}$2{$joinString}", $column);
     }
 }
 
