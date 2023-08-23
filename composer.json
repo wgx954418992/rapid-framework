@@ -22,7 +22,7 @@
     "monolog/monolog": "^1.26",
     "mustangostang/spyc": "0.6.3",
     "voku/anti-xss": "4.1",
-    "wgx954418992/php-enum": "^1.20"
+    "wgx954418992/php-enum": "^1.2"
   },
   "require-dev": {
     "eaglewu/swoole-ide-helper": "dev-master",
