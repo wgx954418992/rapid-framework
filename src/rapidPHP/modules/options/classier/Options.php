@@ -77,6 +77,7 @@ abstract class Options
      * @param callable|null $callable
      * @param bool $isThrow
      * @return int|static
+     * @throws Exception
      */
     public function then(int $member, ?callable $callable = null, bool $isThrow = false)
     {
@@ -85,6 +86,31 @@ abstract class Options
         if (is_callable($callable)) {
             try {
                 if ($result) call_user_func($callable, $result);
+            } catch (Exception $e) {
+                if ($isThrow) throw $e;
+            }
+
+            return $this;
+        }
+
+        return $result;
+    }
+
+    /**
+     * absent
+     * @param int $member
+     * @param callable|null $callable
+     * @param bool $isThrow
+     * @return int|static
+     * @throws Exception
+     */
+    public function absent(int $member, ?callable $callable = null, bool $isThrow = false)
+    {
+        $result = $this->value & $member;
+
+        if (is_callable($callable)) {
+            try {
+                if (!$result) call_user_func($callable, $result);
             } catch (Exception $e) {
                 if ($isThrow) throw $e;
             }
