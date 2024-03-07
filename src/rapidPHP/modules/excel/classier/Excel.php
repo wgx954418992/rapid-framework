@@ -47,8 +47,6 @@ class Excel
 
         $reader->setReadDataOnly(true);
 
-        $reader->setLoadSheetsOnly($filename);
-
         return $reader->load($filename);
     }
 
