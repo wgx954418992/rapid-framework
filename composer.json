@@ -20,7 +20,7 @@
   "require": {
     "php": ">=7.2.0",
     "monolog/monolog": "^1.26",
-    "mustangostang/spyc": "0.6.3",
+    "mustangostang/spyc": "0.6.2",
     "voku/anti-xss": "4.1",
     "wgx954418992/php-enum": "^1.2"
   },

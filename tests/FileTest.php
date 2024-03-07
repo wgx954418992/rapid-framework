@@ -15,6 +15,7 @@ class FileTest extends TestCase
      */
     public function testReadDir()
     {
+        Spyc::YAMLDump("");
         $excludeHiddenFile = 0;
 
         $files = File::getInstance()->readDirList(dirname(__DIR__), File::OPTIONS_NONE);
