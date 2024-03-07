@@ -1,6 +1,6 @@
 {
   "name": "wgx954418992/rapid-framework",
-  "version": "4.0.4",
+  "version": "4.0.5",
   "description": "Fast, simple and practical php framework",
   "keywords": [
     "framework",
@@ -20,7 +20,7 @@
   "require": {
     "php": ">=7.2.0",
     "monolog/monolog": "^1.26",
-    "mustangostang/spyc": "0.6.2",
+    "mustangostang/spyc": "0.6.3",
     "voku/anti-xss": "4.1",
     "wgx954418992/php-enum": "^1.2"
   },
